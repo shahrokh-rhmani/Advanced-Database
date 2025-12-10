@@ -19,6 +19,24 @@ WHERE city = 'Tehran' OR country = 'Iran';
 \! clear
 ```
 
+### Users from Tehran or Mashhad (with OR)
+```
+ecommerce_db=# EXPLAIN ANALYZE
+SELECT user_id, username, city, country
+FROM users
+WHERE city = 'Tehran' OR country = 'Mashhad';
+```
+```
+ Seq Scan on users  (cost=0.00..28956.00 rows=127000 width=26) (actual time=0.014..109.180 rows=124406 loops=1)
+   Filter: (((city)::text = 'Tehran'::text) OR ((country)::text = 'Mashhad'::text))
+   Rows Removed by Filter: 875594
+ Planning Time: 0.064 ms
+ Execution Time: 112.891 ms
+(5 rows)
+```
+
+
+
 ### Scenario 2: Same query with UNION
 ```
 EXPLAIN ANALYZE
